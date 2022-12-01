@@ -55,6 +55,7 @@ class StartScreen():
 
 class QuizWelcome():
 	def __init__(self, window, display_manager, displayargs:dict):
+		self.display_manager = display_manager
 		if "data" in displayargs.keys():
 			self.data = displayargs["data"]
 		else:
@@ -78,6 +79,9 @@ class QuizWelcome():
 
 		self.start_button = CTkButton(self.win, text="Start")
 		self.start_button.grid(row=3, column=0, padx=10, pady=10)
+
+	def start_quiz(self):
+		self.display_manager.jump_to_display(Displays.QUIZ_PAGE.value, data=self.data)
 
 class QuizPage():
 	def __init__(self, window, display_manager, displayargs:dict):
