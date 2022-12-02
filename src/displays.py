@@ -2,6 +2,7 @@ from customtkinter import *
 from tkinter import *
 from tkinter.filedialog import *
 from tkinter.messagebox import *
+import random
 import widgets
 import sys
 import json
@@ -95,17 +96,32 @@ class QuizPage():
 		else:
 			raise exceptions.QuizDataNotProvided
 
-		self.question_count = self.data.get_quiz_info("question-count")
-		self.organise = self.data.get_quiz_info("organise")
+		self.data.construct_quiz_timeline()
 
-	def present_question():
-		pass
+		self.present_question()
 
-	def next_question():
-		pass
+	def present_question(self):
+		self.question = self.data.get_current_question()
+		self.question_header = widgets.QuestionHeader(self.win, self.question["main-text"], self.question["sub-text"])
+		self.question_header.grid(row=0, column=0, sticky="ew", padx=20, pady=20)
+		self.win.grid_columnconfigure(0, weight=1)
 
-	def check_answer():
-		pass
+		self.question_input = widgets.QuestionInput(self.win, self.question["answer-type"])
+		self.question_input.grid(row=1, column=0)
+		self.win.grid_rowconfigure(1, weight=1)
+
+		self.submit_button = CTkButton(self.win, text="Submit", command=self.submit_answer)
+		self.submit_button.grid(row=2, column=0, pady=10)
+		self.win.grid_rowconfigure(2, weight=0)
+
+	def submit_answer(self):
+		if self.question_input.answer.get() == self.question["answer"]:
+			answer = "Correct!"
+		else:
+			answer = "Incorrect :("
+		self.question_input.draw_iscorrect(answer)
+		self.submit_button["text"] = "Next"
+
 		
 class QuizEnd():
 	def __init__(self, window, display_manager, displayargs:dict):

@@ -1,5 +1,6 @@
 import exceptions
 import json
+import random
 
 class Quiz():
 	str_info = ["name", "author", "welcome-message", "organise", "description"]
@@ -16,8 +17,25 @@ class Quiz():
 	def load_from_string(self, text:str):
 		self.data = json.loads(text)
 
-	def get_question(self, question_number):
-		pass 
+	def construct_quiz_timeline(self):
+		organise = self.get_quiz_info("organise")
+		question_count = self.get_quiz_info("question-count")
+
+		self.quiz_timeline = [None] * question_count
+		for i in range(0, question_count):
+			self.quiz_timeline[i] = i
+			
+		if organise == "random":
+			self.quiz_timeline = random.choice(self.quiz_timeline)
+
+		self.current_question = 0
+
+	def get_current_question(self):
+		current_q_num = str(self.quiz_timeline[self.current_question])
+		return self.data[current_q_num]
+
+	def next_question(self):
+		self.current_question += 1
 
 	def get_quiz_info(self, data):
 		# is string
