@@ -20,7 +20,7 @@ class Quiz():
 	def display_welcome(self):
 		pass
 
-	def start_quiz(self):
+	def start_quiz(self): #testinfg
 		self.clear_window()
 
 def main():
