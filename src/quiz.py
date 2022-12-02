@@ -2,7 +2,7 @@ import exceptions
 import json
 
 class Quiz():
-	str_info = ["name", "author", "welcome-message", "organise_type", "description"]
+	str_info = ["name", "author", "welcome-message", "organise", "description"]
 	int_info = ["question-count"]
 
 	def __init__(self):

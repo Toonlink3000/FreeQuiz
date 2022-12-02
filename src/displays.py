@@ -48,6 +48,8 @@ class StartScreen():
 
 	def open_quiz(self):
 		file_name = askopenfilename(filetypes=(("FreeQuiz quiz file", "*.qwz"), ("JSON files", "*.json"), ("All files", "*")))
+		if file_name == ():
+			return
 		data = quiz.Quiz()
 		data.load_from_file(file_name)
 		self.display_manager.jump_to_display(Displays.QUIZ_WELCOME.value, data=data)
@@ -77,7 +79,7 @@ class QuizWelcome():
 		self.description_l.grid(row=2, column=0, sticky="new", padx=40, pady=10)
 		self.win.grid_rowconfigure(2, weight=1)
 
-		self.start_button = CTkButton(self.win, text="Start")
+		self.start_button = CTkButton(self.win, text="Start", command=self.start_quiz)
 		self.start_button.grid(row=3, column=0, padx=10, pady=10)
 
 	def start_quiz(self):
@@ -85,6 +87,24 @@ class QuizWelcome():
 
 class QuizPage():
 	def __init__(self, window, display_manager, displayargs:dict):
+		self.display_manager = display_manager
+		self.win = window
+
+		if "data" in displayargs.keys():
+			self.data = displayargs["data"]
+		else:
+			raise exceptions.QuizDataNotProvided
+
+		self.question_count = self.data.get_quiz_info("question-count")
+		self.organise = self.data.get_quiz_info("organise")
+
+	def present_question():
+		pass
+
+	def next_question():
+		pass
+
+	def check_answer():
 		pass
 		
 class QuizEnd():

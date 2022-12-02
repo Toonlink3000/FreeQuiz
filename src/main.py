@@ -1,4 +1,6 @@
 from customtkinter import *
+from tkinter import messagebox
+import traceback
 import displays
 
 
@@ -22,8 +24,12 @@ class Quiz():
 		self.clear_window()
 
 def main():
-	app = App()
-	app.mainloop()
+	try:
+		app = App()
+		app.mainloop()
+
+	except:
+		messagebox.showerror("Caught error",traceback.format_exc())
 
 if __name__ == '__main__':
 	main()
