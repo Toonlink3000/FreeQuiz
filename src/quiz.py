@@ -6,6 +6,9 @@ class Quiz():
 	str_info = ["name", "author", "welcome-message", "organise", "description"]
 	int_info = ["question-count"]
 
+	correct_string = "Correct!"
+	incorrect_string = "Incorrect 😞"
+
 	def __init__(self):
 		self.data = None
 
@@ -29,6 +32,8 @@ class Quiz():
 			self.quiz_timeline = random.choice(self.quiz_timeline)
 
 		self.current_question = 0
+		self.correct_answer_count = 0
+		self.wrong_answer_count = 0
 
 	def get_current_question(self):
 		current_q_num = str(self.quiz_timeline[self.current_question])
@@ -39,6 +44,21 @@ class Quiz():
 		if self.current_question == len(self.quiz_timeline):
 			return True
 
+		else:
+			return False
+
+	def check_and_count_answer(self, answer):
+		answer = self.check_answer()
+		if answer == True:
+			self.correct_answer_count += 1
+			return self.correct_string
+		else:
+			self.wrong_answer_count += 1
+			return self.incorrect_string
+		
+	def check_answer(self, answer:str) -> str:
+		if answer == self.data[str(self.current_question)]["answer"]:
+			return True
 		else:
 			return False
 
