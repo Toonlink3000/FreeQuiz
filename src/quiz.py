@@ -29,19 +29,21 @@ class Quiz():
 			self.quiz_timeline[i] = i
 			
 		if organise == "random":
-			self.quiz_timeline = random.choice(self.quiz_timeline)
+			random.shuffle(self.quiz_timeline)
 
 		self.current_question = 0
 		self.correct_answer_count = 0
 		self.wrong_answer_count = 0
+		print(self.quiz_timeline)
 
 	def get_current_question(self):
 		current_q_num = str(self.quiz_timeline[self.current_question])
 		return self.data[current_q_num]
 
 	def next_question(self) -> bool:
+		print("called next_question")
 		self.current_question += 1
-		if self.current_question >= len(self.quiz_timeline):
+		if self.current_question >= len(self.quiz_timeline)+1:
 			return True
 
 		else:
@@ -57,7 +59,7 @@ class Quiz():
 			return self.incorrect_string
 		
 	def check_answer(self, answer:str) -> str:
-		if !self.data[str(self.current_question)]["case-sensitive"]:
+		if not self.data[str(self.current_question)]["case-sensitive"]:
 			mod_answer = answer.lower()
 			mod_canswer = self.data[str(self.current_question)]["answer"].lower()
 

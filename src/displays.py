@@ -106,7 +106,13 @@ class QuizPage():
 		self.question_header.grid(row=0, column=0, sticky="ew", padx=20, pady=20)
 		self.win.grid_columnconfigure(0, weight=1)
 
-		self.question_input = widgets.QuestionInput(self.win, self.question["answer-type"])
+		if self.question["answer-type"] == "multiple-choice":
+			options = self.question["options"]
+		
+		elif self.question["answer-type"] == "text":
+			options = None
+			
+		self.question_input = widgets.QuestionInput(self.win, self.question["answer-type"], options)
 		self.question_input.grid(row=1, column=0)
 		self.win.grid_rowconfigure(1, weight=1)
 
@@ -129,14 +135,19 @@ class QuizPage():
 			print("last question")
 			return
 
-		self.data.next_question()
 		self.refresh_question()
 
 	def refresh_question(self):
 		self.question = self.data.get_current_question()
 
+		if self.question["answer-type"] == "multiple-choice":
+			options = self.question["options"]
+		
+		elif self.question["answer-type"] == "text":
+			options = None
+			
 		self.question_header.refresh_texts(self.question["main-text"], self.question["sub-text"])
-		self.question_input.refresh_input(self.question["answer-type"])
+		self.question_input.refresh_input(self.question["answer-type"], options)
 
 		self.submit_button_t.set("submit")
 		self.submit_button.configure(command=self.submit_answer)

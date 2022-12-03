@@ -61,25 +61,45 @@ class QuestionHeader(CTkFrame):
 		self.sub_text.set(sub_text)
 
 class QuestionInput(CTkFrame):
-	def __init__(self, parent, answer_type):
+	def __init__(self, parent, answer_type, options):
 		super().__init__(parent)
+		self.answer_type = answer_type
+		if answer_type != "text":
+			self.options = options
+		self.draw_answer_box()
 
-		match answer_type:
-			case "text":
-				self.drawinput_text()
-
-	def drawinput_text(self):
+	def draw_answer_box(self):
 		self.answer = StringVar()
 		self.input_label = CTkLabel(self, text="Enter your answer: ")
-		self.input = CTkEntry(self, textvariable=self.answer)
+		match self.answer_type:
+			case "text":
+				self.input = CTkEntry(self, textvariable=self.answer)
+				self.input_label.grid(row=0, column=0, padx=10, pady=10)
+				self.input.grid(row=1, column=0, padx=10, pady=10)
+				self.total_length = 2
 
-		self.input_label.grid(row=0, column=0, padx=10, pady=10)
-		self.input.grid(row=1, column=0, padx=10, pady=10)
+			case "multiple-choice":
+				#create a list of radio buttons for each option
+				self.input_label.grid(row=0, column=0, padx=10, pady=10)
+				self.input = []
+				for i, option in enumerate(self.options):
+					self.input.append(CTkRadioButton(self, text=option, variable=self.answer, value=option))
+					self.input[i].grid(row=i+1, column=0, padx=10, pady=10)
+
+				self.total_length = len(self.options) + 1
+				
+			case "true-false":
+				pass
 
 	def draw_iscorrect(self, correct:str):
-		self.corectness_label = CTkLabel(self, text=correct)
-		self.corectness_label.grid(row=2, column=0, pady=10)
+		self.iscorrect = CTkLabel(self, text=correct)
+		self.iscorrect.grid(row=self.total_length, column=0, padx=10, pady=10)
 
-	def refresh_input(self, answer_type):
-		self.answer.set("")
-		self.corectness_label.destroy()
+	def refresh_input(self, answer_type, options):
+		self.answer_type = answer_type
+		self.options = options
+
+		for i in self.grid_slaves():
+			i.destroy()
+
+		self.draw_answer_box()
