@@ -127,6 +127,7 @@ class QuizPage():
 		last_question = self.data.next_question()
 		if last_question == True:
 			print("last question")
+			return
 
 		self.data.next_question()
 		self.refresh_question()

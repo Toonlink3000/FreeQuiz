@@ -41,7 +41,7 @@ class Quiz():
 
 	def next_question(self) -> bool:
 		self.current_question += 1
-		if self.current_question == len(self.quiz_timeline):
+		if self.current_question >= len(self.quiz_timeline):
 			return True
 
 		else:
@@ -57,7 +57,15 @@ class Quiz():
 			return self.incorrect_string
 		
 	def check_answer(self, answer:str) -> str:
-		if answer == self.data[str(self.current_question)]["answer"]:
+		if !self.data[str(self.current_question)]["case-sensitive"]:
+			mod_answer = answer.lower()
+			mod_canswer = self.data[str(self.current_question)]["answer"].lower()
+
+		else:
+			mod_answer = answer
+			mod_canswer = self.data[str(self.current_question)]["answer"]
+
+		if mod_answer == mod_canswer:
 			return True
 		else:
 			return False
