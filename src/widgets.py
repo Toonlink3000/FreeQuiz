@@ -43,13 +43,22 @@ class QuizWelcomeGreeting(CTkFrame):
 class QuestionHeader(CTkFrame):
 	def __init__(self, parent, main_text:str, sub_text:str):
 		super().__init__(parent)
-		self.quiz_name_l = WrappedLabel(self, text=main_text, text_font=("default", 20))
+		self.main_text = StringVar()
+		self.main_text.set(main_text)
+		self.sub_text = StringVar()
+		self.sub_text.set(sub_text)
+
+		self.main_text_l = WrappedLabel(self, text=main_text, text_font=("default", 20))
 		self.sub_text_l = CTkLabel(self, text=sub_text)
 
-		self.quiz_name_l.grid(row=0, column=0, padx=10, pady=10)
+		self.main_text_l.grid(row=0, column=0, padx=10, pady=10)
 		self.sub_text_l.grid(row=1, column=0, padx = 10, pady=10)
 
 		self.grid_columnconfigure(0, weight=1)
+
+	def refresh_texts(self, main_text:str, sub_text:str):
+		self.main_text.set(main_text)
+		self.sub_text.set(sub_text)
 
 class QuestionInput(CTkFrame):
 	def __init__(self, parent, answer_type):
@@ -70,3 +79,7 @@ class QuestionInput(CTkFrame):
 	def draw_iscorrect(self, correct:str):
 		self.corectness_label = CTkLabel(self, text=correct)
 		self.corectness_label.grid(row=2, column=0, pady=10)
+
+	def refresh_input(self, answer_type):
+		self.answer.set("")
+		self.corectness_label.destroy()

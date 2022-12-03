@@ -110,7 +110,9 @@ class QuizPage():
 		self.question_input.grid(row=1, column=0)
 		self.win.grid_rowconfigure(1, weight=1)
 
-		self.submit_button = CTkButton(self.win, text="Submit", command=self.submit_answer)
+		self.submit_button_t = StringVar()
+		self.submit_button_t.set("Submit")
+		self.submit_button = CTkButton(self.win, textvariable=self.submit_button_t, command=self.submit_answer)
 		self.submit_button.grid(row=2, column=0, pady=10)
 		self.win.grid_rowconfigure(2, weight=0)
 
@@ -120,9 +122,26 @@ class QuizPage():
 		else:
 			answer = "Incorrect :("
 		self.question_input.draw_iscorrect(answer)
-		self.submit_button["text"] = "Next"
+		self.submit_button_t.set("Next")
+		self.submit_button.configure(command = self.next_question)
 
-		
+	def next_question(self):
+		last_question = self.data.next_question()
+		if last_question == True:
+			print("last question")
+
+		self.data.next_question()
+		self.refresh_question()
+
+	def refresh_question(self):
+		self.question = self.data.get_current_question()
+
+		self.question_header.refresh_texts(self.question["main-text"], self.question["sub-text"])
+		self.question_input.refresh_input(self.question["answer-type"])
+
+		self.submit_button_t.set("submit")
+		self.submit_button.configure(command=self.submit_answer)
+
 class QuizEnd():
 	def __init__(self, window, display_manager, displayargs:dict):
 		pass

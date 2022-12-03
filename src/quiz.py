@@ -34,8 +34,13 @@ class Quiz():
 		current_q_num = str(self.quiz_timeline[self.current_question])
 		return self.data[current_q_num]
 
-	def next_question(self):
+	def next_question(self) -> bool:
 		self.current_question += 1
+		if self.current_question == len(self.quiz_timeline):
+			return True
+
+		else:
+			return False
 
 	def get_quiz_info(self, data):
 		# is string
