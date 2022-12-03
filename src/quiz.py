@@ -3,7 +3,7 @@ import json
 import random
 
 class Quiz():
-	str_info = ["name", "author", "welcome-message", "organise", "description"]
+	str_info = ["name", "author", "welcome-message", "organise", "description", "goodbye-message", "correct-string", "incorrect-string"]
 	int_info = ["question-count"]
 
 	correct_string = "Correct!"
@@ -43,7 +43,7 @@ class Quiz():
 	def next_question(self) -> bool:
 		print("called next_question")
 		self.current_question += 1
-		if self.current_question >= len(self.quiz_timeline)+1:
+		if self.current_question >= len(self.quiz_timeline):
 			return True
 
 		else:
@@ -88,4 +88,3 @@ class Quiz():
 		# raise exception if invalid keyword
 		else:
 			print("farts")
-			raise QuizInfoRequestInvalid

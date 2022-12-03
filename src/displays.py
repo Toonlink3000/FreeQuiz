@@ -132,8 +132,7 @@ class QuizPage():
 	def next_question(self):
 		last_question = self.data.next_question()
 		if last_question == True:
-			print("last question")
-			return
+			self.display_manager.jump_to_display(Displays.QUIZ_END.value, data=self.data)
 
 		self.refresh_question()
 
@@ -154,6 +153,29 @@ class QuizPage():
 
 class QuizEnd():
 	def __init__(self, window, display_manager, displayargs:dict):
-		pass
+		self.win = window
+		self.display_manager = display_manager
+		self.data = displayargs["data"]
 
+		self.quiz_goodbye = widgets.QuizGoodbye(self.win, self.data.get_quiz_info("goodbye-message"))
+		self.quiz_goodbye.grid(row=0, column=0, padx=20, pady=20, sticky="ew")
+		self.win.grid_columnconfigure(0, weight=1)
+		self.win.grid_rowconfigure(0, weight=0)
+
+		self.correct_anwers = CTkLabel(self.win, text="Correct answers: {}".format(self.data.correct_answer_count))
+		self.correct_anwers.grid(row=1, column=0, padx=30, pady=5, sticky="nw")
+		self.win.grid_rowconfigure(1, weight=0)
+
+		self.incorrect_answers = CTkLabel(self.win, text="Incorrect answers: {}".format(self.data.wrong_answer_count))
+		self.incorrect_answers.grid(row=2, column=0, padx=30, pady=5, sticky="nw")
+		self.win.grid_rowconfigure(2, weight=0)
+
+		self.win.grid_rowconfigure(3, weight=1)
+
+		self.main_menu_button = CTkButton(self.win, text="Main menu", command=self.return_to_main_menu)
+		self.main_menu_button.grid(row=4, column=0, padx=10, pady=10)
+		
+	def return_to_main_menu(self):
+		self.display_manager.jump_to_display(Displays.START_SCREEN.value)
+		
 DISPLAYS = [StartScreen, QuizWelcome, QuizPage, QuizEnd] #Constant with displays assigned to numbers

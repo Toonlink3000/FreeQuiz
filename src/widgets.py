@@ -40,6 +40,16 @@ class QuizWelcomeGreeting(CTkFrame):
 
 		self.grid_columnconfigure(0, weight=1)
 
+class QuizGoodbye(CTkFrame):
+	def __init__(self, parent, goodbye_message:str):
+		super().__init__(parent)
+
+		self.goodbye_message_l = CTkLabel(self, text=goodbye_message, text_font=("default", 30))
+		self.goodbye_message_l.grid(row=0, column=0, padx=10, pady=10)
+
+		self.grid_columnconfigure(0, weight=1)
+
+
 class QuestionHeader(CTkFrame):
 	def __init__(self, parent, main_text:str, sub_text:str):
 		super().__init__(parent)
