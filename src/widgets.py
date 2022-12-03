@@ -48,8 +48,8 @@ class QuestionHeader(CTkFrame):
 		self.sub_text = StringVar()
 		self.sub_text.set(sub_text)
 
-		self.main_text_l = WrappedLabel(self, text=main_text, text_font=("default", 20))
-		self.sub_text_l = CTkLabel(self, text=sub_text)
+		self.main_text_l = WrappedLabel(self, textvariable=self.main_text, text_font=("default", 20))
+		self.sub_text_l = CTkLabel(self, textvariable=self.sub_text)
 
 		self.main_text_l.grid(row=0, column=0, padx=10, pady=10)
 		self.sub_text_l.grid(row=1, column=0, padx = 10, pady=10)
@@ -84,7 +84,7 @@ class QuestionInput(CTkFrame):
 				self.input = []
 				for i, option in enumerate(self.options):
 					self.input.append(CTkRadioButton(self, text=option, variable=self.answer, value=option))
-					self.input[i].grid(row=i+1, column=0, padx=10, pady=10)
+					self.input[i].grid(row=i+1, column=0, padx=10, pady=10, sticky="w")
 
 				self.total_length = len(self.options) + 1
 				
@@ -96,6 +96,7 @@ class QuestionInput(CTkFrame):
 		self.iscorrect.grid(row=self.total_length, column=0, padx=10, pady=10)
 
 	def refresh_input(self, answer_type, options):
+
 		self.answer_type = answer_type
 		self.options = options
 

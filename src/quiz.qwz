@@ -13,8 +13,8 @@
 		"case-sensitive": false
 	},
 	"1": {
-		"main-text": "Datum narozeni bozeny nemcove",
-		"sub-text": "This is some subtext",
+		"main-text": "A multiple choice question!!",
+		"sub-text": "This is some subtexasdt",
 		"answer-type": "multiple-choice",
 		"answer": "nevim",
 		"case-sensitive": false,
