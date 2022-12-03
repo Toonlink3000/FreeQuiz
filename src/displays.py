@@ -117,7 +117,7 @@ class QuizPage():
 		self.win.grid_rowconfigure(2, weight=0)
 
 	def submit_answer(self):
-		corectness = self.data.check_and_count_answer(self.question_input.answer.get())
+		correctness = self.data.check_and_count_answer(self.question_input.answer.get())
 
 		self.question_input.draw_iscorrect(correctness)
 		self.submit_button_t.set("Next")

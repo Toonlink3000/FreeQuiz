@@ -48,7 +48,7 @@ class Quiz():
 			return False
 
 	def check_and_count_answer(self, answer):
-		answer = self.check_answer()
+		answer = self.check_answer(answer)
 		if answer == True:
 			self.correct_answer_count += 1
 			return self.correct_string
