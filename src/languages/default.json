@@ -2,7 +2,7 @@
     "open-quiz": "Open quiz", 
     "quit": "Quit",
     "description": "Description:",
-    "by:": "By:", 
+    "by:": "By: {}", 
     "start": "Start",
     "enter-your-answer": "Enter your answer:", 
     "submit": "Submit",

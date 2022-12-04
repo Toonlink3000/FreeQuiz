@@ -41,7 +41,9 @@ class DisplayManager():
 
 class StartScreen():
 	def __init__(self, window, display_manager, displayargs:dict):
-		window.control_buttons = widgets.ControlButtons(window, self.open_quiz)
+		window.control_buttons = widgets.ControlButtons(
+			window, self.open_quiz, LANGUAGE_MANAGER.get_language_word("open-quiz"), LANGUAGE_MANAGER.get_language_word("quit")
+		)
 		window.control_buttons.grid(row=2, column=0, pady=50)
 		window.title_text = CTkLabel(text="FreeQuiz", text_font=("default", -70))
 		window.title_text.grid(row=0, column=0, pady=50)

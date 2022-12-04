@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 class LanguageManager():
     language_keys = [
@@ -31,11 +32,20 @@ class LanguageManager():
                 self.load_and_add_language(i[:-5], directory+"/"+i)
 
     def load_and_add_language(self, language_name:str, language_file:str):
-        with open(language_file, "r") as file:
-            self.languages[language_name] = json.load(file)
+        try:
+            with open(language_file, "r") as file:
+                self.languages[language_name] = json.load(file)
+
+        except Exception as e:
+            logging.error("Failed to load language: " + language_name)
+            logging.error(e)
 
     def set_language(self, language_name:str):
-        self.current_language = language_name
+        if language_name in self.languages.keys():
+            self.current_language = language_name
+
+        else:
+            logging.error("Language not found: " + language_name)
 
     def get_language_word(self, word:str):
         return self.languages[self.current_language][word]

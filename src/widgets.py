@@ -7,13 +7,13 @@ class WrappedLabel(CTkLabel):
 		self.bind('<Configure>', lambda e: self.configure(wraplength=self.winfo_width()))
 
 class ControlButtons(CTkFrame):
-	def __init__(self, parent, open_quiz):
+	def __init__(self, parent, open_quiz, open_text, quit_text):
 		super().__init__(parent)
 		self.parent = parent
 
-		self.open_button = CTkButton(self, text="Open a quiz", command=open_quiz)
+		self.open_button = CTkButton(self, text=open_text, command=open_quiz)
 		self.open_button.grid(row=0, column=0, padx=10, pady=10)
-		self.quit_button = CTkButton(self, text="Quit", command=lambda:sys.exit())
+		self.quit_button = CTkButton(self, text=quit_text, command=lambda:sys.exit())
 		self.quit_button.grid(row=0, column=1, padx=10, pady=10)
 
 class QuestionDisplay(CTkFrame):
