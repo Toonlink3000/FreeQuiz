@@ -9,6 +9,9 @@ import json
 import enum
 import exceptions
 import quiz
+import languages
+
+LANGUAGE_MANAGER = languages.LanguageManager()
 
 class Displays(enum.Enum):
 	START_SCREEN = 0
@@ -67,11 +70,17 @@ class QuizWelcome():
 		self.win = window
 		welcome_message = self.data.get_quiz_info("welcome-message")
 		author = self.data.get_quiz_info("author")
-		self.welcome_greeting = widgets.QuizWelcomeGreeting(self.win, welcome_message, "by: {}".format(author))
+		self.welcome_greeting = widgets.QuizWelcomeGreeting(
+			self.win, welcome_message, LANGUAGE_MANAGER.get_language_word("by:").format(author)
+		)
+
 		self.welcome_greeting.grid(row=0, column=0, padx=20, pady=20, sticky="ew")
 		self.win.grid_columnconfigure(0, weight=1)
 
-		description_label = CTkLabel(self.win, text="Description: ", text_font=("default", 16))
+		description_label = CTkLabel(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("description"), text_font=("default", 16)
+		)
+
 		description_label.grid(row=1, column=0, padx=30, sticky="nw")
 		description = self.data.get_quiz_info("description")
 		self.win.grid_rowconfigure(1, weight=0)
@@ -80,7 +89,10 @@ class QuizWelcome():
 		self.description_l.grid(row=2, column=0, sticky="new", padx=40, pady=10)
 		self.win.grid_rowconfigure(2, weight=1)
 
-		self.start_button = CTkButton(self.win, text="Start", command=self.start_quiz)
+		self.start_button = CTkButton(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("start"), command=self.start_quiz
+		)
+
 		self.start_button.grid(row=3, column=0, padx=10, pady=10)
 
 	def start_quiz(self):
@@ -117,7 +129,7 @@ class QuizPage():
 		self.win.grid_rowconfigure(1, weight=1)
 
 		self.submit_button_t = StringVar()
-		self.submit_button_t.set("Submit")
+		self.submit_button_t.set(LANGUAGE_MANAGER.get_language_word("submit"))
 		self.submit_button = CTkButton(self.win, textvariable=self.submit_button_t, command=self.submit_answer)
 		self.submit_button.grid(row=2, column=0, pady=10)
 		self.win.grid_rowconfigure(2, weight=0)
@@ -126,7 +138,7 @@ class QuizPage():
 		correctness = self.data.check_and_count_answer(self.question_input.answer.get())
 
 		self.question_input.draw_iscorrect(correctness)
-		self.submit_button_t.set("Next")
+		self.submit_button_t.set(LANGUAGE_MANAGER.get_language_word("next-question"))
 		self.submit_button.configure(command = self.next_question)
 
 	def next_question(self):
@@ -148,7 +160,7 @@ class QuizPage():
 		self.question_header.refresh_texts(self.question["main-text"], self.question["sub-text"])
 		self.question_input.refresh_input(self.question["answer-type"], options)
 
-		self.submit_button_t.set("submit")
+		self.submit_button_t.set(LANGUAGE_MANAGER.get_language_word("submit"))
 		self.submit_button.configure(command=self.submit_answer)
 
 class QuizEnd():
@@ -162,17 +174,23 @@ class QuizEnd():
 		self.win.grid_columnconfigure(0, weight=1)
 		self.win.grid_rowconfigure(0, weight=0)
 
-		self.correct_anwers = CTkLabel(self.win, text="Correct answers: {}".format(self.data.correct_answer_count))
+		self.correct_anwers = CTkLabel(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("correct-answers").format(self.data.correct_answer_count)
+		)
 		self.correct_anwers.grid(row=1, column=0, padx=30, pady=5, sticky="nw")
 		self.win.grid_rowconfigure(1, weight=0)
 
-		self.incorrect_answers = CTkLabel(self.win, text="Incorrect answers: {}".format(self.data.wrong_answer_count))
+		self.incorrect_answers = CTkLabel(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("incorrect-answers").format(self.data.wrong_answer_count)
+		)
 		self.incorrect_answers.grid(row=2, column=0, padx=30, pady=5, sticky="nw")
 		self.win.grid_rowconfigure(2, weight=0)
 
 		self.win.grid_rowconfigure(3, weight=1)
 
-		self.main_menu_button = CTkButton(self.win, text="Main menu", command=self.return_to_main_menu)
+		self.main_menu_button = CTkButton(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("main-menu"), command=self.return_to_main_menu
+		)
 		self.main_menu_button.grid(row=4, column=0, padx=10, pady=10)
 		
 	def return_to_main_menu(self):

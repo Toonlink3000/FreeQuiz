@@ -3,7 +3,6 @@ from tkinter import messagebox
 import traceback
 import displays
 
-
 class App(CTk):
 	def __init__(self):
 		super().__init__()

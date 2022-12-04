@@ -1,0 +1,15 @@
+{
+    "open-quiz": "Open quiz", 
+    "quit": "Quit",
+    "description": "Description:",
+    "by:": "By:", 
+    "start": "Start",
+    "enter-your-answer": "Enter your answer:", 
+    "submit": "Submit",
+    "next-question": "Next question",
+    "correct": "Correct!",
+    "incorrect": "Incorrect :(",
+    "correct-answers": "Correct answers: {}",
+    "incorrect-answers": "Incorrect answers: {}",
+    "main-menu": "Main menu"
+}
