@@ -145,6 +145,7 @@ class QuizPage():
 		last_question = self.data.next_question()
 		if last_question == True:
 			self.display_manager.jump_to_display(Displays.QUIZ_END.value, data=self.data)
+			return
 
 		self.refresh_question()
 

@@ -20,9 +20,15 @@ class LanguageManager():
 
     def __init__(self):
         self.languages = {}
-        self.load_and_add_language("default", os.path.dirname(__file__)+"/languages/default.json")
+        self.scan_languages(os.path.dirname(__file__) + "/languages")
+        self.set_language("default")
 
         self.set_language("default")
+
+    def scan_languages(self, directory:str):
+        for i in os.listdir(directory):
+            if i.endswith(".json"):
+                self.load_and_add_language(i[:-5], directory+"/"+i)
 
     def load_and_add_language(self, language_name:str, language_file:str):
         with open(language_file, "r") as file:
