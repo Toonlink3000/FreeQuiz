@@ -1,0 +1,15 @@
+{
+    "open-quiz": "Otevřít kvíz", 
+    "quit": "Ukončit aplikaci",
+    "description": "Popisek:",
+    "by:": "Vytvoříl(a): {}", 
+    "start": "Začít",
+    "enter-your-answer": "Zadejte svoji odpověd:", 
+    "submit": "Potvrdit",
+    "next-question": "Další otázka",
+    "correct": "Správně!",
+    "incorrect": "Špatně :(",
+    "correct-answers": "Počet správných odpovědí: {}",
+    "incorrect-answers": "Počet špatných odpovědí: {}",
+    "main-menu": "Na hlavní obrazovku"
+}
