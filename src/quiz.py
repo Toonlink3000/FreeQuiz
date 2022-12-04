@@ -3,11 +3,37 @@ import json
 import random
 
 class Quiz():
-	str_info = ["name", "author", "welcome-message", "organise", "description", "goodbye-message", "correct-string", "incorrect-string"]
+	str_info = [
+		"name", 
+		"author", 
+		"welcome-message", 
+		"organise", 
+		"description", 
+		"goodbye-message", 
+		"correct-string", 
+		"incorrect-string"
+	]
+
 	int_info = ["question-count"]
 
 	correct_string = "Correct!"
 	incorrect_string = "Incorrect 😞"
+
+	question_params = [
+		"main-text",
+		"sub-text",
+		"answer-type",
+		"answer",
+		"case-sensitive"
+	]
+
+	default_question_values = {
+		"main-text": "Undefined question",
+		"sub-text": "Undefined question",
+		"answer-type": "text",
+		"answer": "undefined",
+		"case-sensitive": False,
+	}
 
 	def __init__(self):
 		self.data = None
@@ -17,8 +43,12 @@ class Quiz():
 		self.data = json.loads(file.read())
 		file.close()
 
+		self.validate_quiz()
+
 	def load_from_string(self, text:str):
 		self.data = json.loads(text)
+
+		self.validate_quiz()
 
 	def construct_quiz_timeline(self):
 		organise = self.get_quiz_info("organise")
@@ -88,3 +118,26 @@ class Quiz():
 		# raise exception if invalid keyword
 		else:
 			print("farts")
+
+	def validate_quiz(self):
+		progress = 0
+		for i in self.str_info:
+			if i in self.data.keys():
+				progress += 1
+
+		for i in self.int_info:
+			if i in self.data.keys():
+				progress += 1
+
+		for i in range(0, self.data["question-count"]):
+			self.validate_and_correct_quiz_questions(i)
+
+		if progress == len(self.str_info) + len(self.int_info):
+			return True
+		else:
+			return False
+
+	def validate_and_correct_quiz_questions(self, quesion_num):
+		for i in self.question_params:
+			if i not in self.data[str(quesion_num)].keys():
+				self.data[str(quesion_num)][i] = self.default_question_values[i]
