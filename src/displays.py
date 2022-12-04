@@ -10,6 +10,7 @@ import enum
 import exceptions
 import quiz
 import languages
+import logging
 
 LANGUAGE_MANAGER = languages.LanguageManager()
 
@@ -53,13 +54,20 @@ class StartScreen():
 		self.display_manager = display_manager
 
 	def open_quiz(self):
-		file_name = askopenfilename(filetypes=(("FreeQuiz quiz file", "*.qwz"), ("JSON files", "*.json"), ("All files", "*")))
-		if file_name == ():
-			return
-		data = quiz.Quiz()
-		data.load_from_file(file_name)
-		self.display_manager.jump_to_display(Displays.QUIZ_WELCOME.value, data=data)
-
+		try:
+			file_name = askopenfilename(filetypes=(("FreeQuiz quiz file", "*.qwz"), ("JSON files", "*.json"), ("All files", "*")))
+			if file_name == ():
+				return
+			data = quiz.Quiz()
+			data.load_from_file(file_name)
+			self.display_manager.jump_to_display(Displays.QUIZ_WELCOME.value, data=data)
+		
+		except exceptions.QuizDataNotProvided:
+			logging.error("Quiz data was not provided to the display: {}".format(Displays(self.display_manager.current_display).name))
+		
+		except Exception as e:
+			logging.error("Failed to open quiz file: " + file_name)
+			logging.error(e)
 
 class QuizWelcome():
 	def __init__(self, window, display_manager, displayargs:dict):
@@ -67,7 +75,8 @@ class QuizWelcome():
 		if "data" in displayargs.keys():
 			self.data = displayargs["data"]
 		else:
-			raise exceptions.QuizDataNotProvided
+			logging.error("Quiz data was not provided to the display: {}".format(Displays(self.display_manager.current_display).name))
+			sys.exit()
 
 		self.win = window
 		welcome_message = self.data.get_quiz_info("welcome-message")
@@ -108,8 +117,9 @@ class QuizPage():
 		if "data" in displayargs.keys():
 			self.data = displayargs["data"]
 		else:
-			raise exceptions.QuizDataNotProvided
-
+			logging.error("Quiz data was not provided to the display: {}".format(Displays(self.display_manager.current_display).name))
+			sys.exit()
+			
 		self.data.construct_quiz_timeline()
 
 		self.present_question()
@@ -170,7 +180,12 @@ class QuizEnd():
 	def __init__(self, window, display_manager, displayargs:dict):
 		self.win = window
 		self.display_manager = display_manager
-		self.data = displayargs["data"]
+		try:
+			self.data = displayargs["data"]
+
+		except:
+			logging.error("Quiz data was not provided to the display: {}".format(Displays(self.display_manager.current_display).name))
+			sys.exit()
 
 		self.quiz_goodbye = widgets.QuizGoodbye(self.win, self.data.get_quiz_info("goodbye-message"))
 		self.quiz_goodbye.grid(row=0, column=0, padx=20, pady=20, sticky="ew")
