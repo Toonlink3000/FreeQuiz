@@ -10,11 +10,12 @@ class Quiz():
 		"organise", 
 		"description", 
 		"goodbye-message", 
-		"correct-string", 
-		"incorrect-string"
 	]
 
-	int_info = ["question-count"]
+	int_info = [
+		"question-count",
+		"required_question_count"
+	]
 
 	correct_string = "Correct!"
 	incorrect_string = "Incorrect 😞"
@@ -33,6 +34,17 @@ class Quiz():
 		"answer-type": "text",
 		"answer": "undefined",
 		"case-sensitive": False,
+	}
+
+	default_quiz_values = {
+		"name": "Unspecified",
+		"author":"Unspecified",
+		"welcome-message": "welcome",
+		"organise": "ordered",
+		"description": "A FreeQuiz project",
+		"goodbye_mesage": "Goodbye!",
+		"question-count": 0,
+		"required-question-count": -1
 	}
 
 	def __init__(self):
@@ -64,7 +76,13 @@ class Quiz():
 		self.current_question = 0
 		self.correct_answer_count = 0
 		self.wrong_answer_count = 0
-		print(self.quiz_timeline)
+		required = self.get_quiz_info("required-question-count")
+		
+		if required > 0:
+			self.length = required
+
+		else:
+			self.length = len(self.quiz_timeline)
 
 	def get_current_question(self):
 		current_q_num = str(self.quiz_timeline[self.current_question])
@@ -73,7 +91,7 @@ class Quiz():
 	def next_question(self) -> bool:
 		print("called next_question")
 		self.current_question += 1
-		if self.current_question >= len(self.quiz_timeline):
+		if self.current_question >= self.length:
 			return True
 
 		else:
@@ -132,6 +150,8 @@ class Quiz():
 		for i in range(0, self.data["question-count"]):
 			self.validate_and_correct_quiz_questions(i)
 
+		self.validate_and_correct_quiz_info()
+
 		if progress == len(self.str_info) + len(self.int_info):
 			return True
 		else:
@@ -141,3 +161,12 @@ class Quiz():
 		for i in self.question_params:
 			if i not in self.data[str(quesion_num)].keys():
 				self.data[str(quesion_num)][i] = self.default_question_values[i]
+
+	def validate_and_correct_quiz_info(self):
+		for i in self.str_info:
+			if i not in self.data.keys():
+				self.data[i] = self.default_quiz_values[i]
+
+		for i in self.int_info:
+			if i not in self.data.keys():
+				self.data[i] = self.default_quiz_values[i]
