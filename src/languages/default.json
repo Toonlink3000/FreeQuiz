@@ -11,5 +11,17 @@
     "incorrect": "Incorrect :(",
     "correct-answers": "Correct answers: {}",
     "incorrect-answers": "Incorrect answers: {}",
-    "main-menu": "Main menu"
+    "save": "Save",
+    "exit": "Exit",
+    "main-menu": "Main menu",
+
+    "options-title": "Options",
+    "options-language": "Language: ",
+    "options-theme": "Theme: ",
+    "options-theme-light": "Light",
+    "options-theme-dark": "Dark",
+    "options-theme-system": "System",
+    "options-accent-colour": "Accent colour: ",
+    "options-accent-colour-blue": "Blue",
+    "options-accent-colour-green": "Green"
 }

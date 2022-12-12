@@ -23,4 +23,5 @@ def main():
 		app.mainloop()
 
 if __name__ == '__main__':
+	print(get_appearance_mode())
 	main()

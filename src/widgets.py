@@ -114,3 +114,33 @@ class QuestionInput(CTkFrame):
 			i.destroy()
 
 		self.draw_answer_box()
+
+class OptionsMenu(CTkFrame):
+	def __init__(self, parent, language_texts, theme_texts, accent_texts):
+		super().__init__(parent)
+		# 0 is the descrition, 1 is the default value, the rest are the options
+		self.language = StringVar()
+		self.language.set(language_texts[1])
+
+		self.theme = StringVar()
+		self.theme.set(theme_texts[1])
+
+		self.accent = StringVar()
+		self.accent.set(accent_texts[1])
+
+		self.language_l = CTkLabel(self, text=language_texts[0])
+		self.language_l.grid(row=0, column=0, padx=10, pady=10)
+		self.language_menu = CTkOptionMenu(self, self.language, *language_texts[2:])
+		self.language_menu.grid(row=0, column=1, padx=10, pady=10)
+
+		self.theme_l = CTkLabel(self, text=theme_texts[0])
+		self.theme_l.grid(row=1, column=0, padx=10, pady=10)
+		self.theme_menu = CTkOptionMenu(self, self.theme, *theme_texts[2:])
+		self.theme_menu.grid(row=1, column=1, padx=10, pady=10)
+
+		self.accent_l = CTkLabel(self, text=accent_texts[0])
+		self.accent_l.grid(row=2, column=0, padx=10, pady=10)
+		self.accent_menu = CTkOptionMenu(self, self.accent, *accent_texts[2:])
+		self.accent_menu.grid(row=2, column=1, padx=10, pady=10)
+
+		self.grid_columnconfigure(1, weight=1)

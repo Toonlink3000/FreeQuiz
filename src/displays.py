@@ -11,6 +11,7 @@ import exceptions
 import quiz
 import languages
 import logging
+import themes
 
 LANGUAGE_MANAGER = languages.LanguageManager()
 
@@ -19,11 +20,13 @@ class Displays(enum.Enum):
 	QUIZ_WELCOME = 1
 	QUIZ_PAGE = 2
 	QUIZ_END = 3
+	OPTIONS_MENU = 4
 
 class DisplayManager():
 	def __init__(self, window):
 		self.current_display = 0
 		self.window = window
+		self.theme_manager = themes.ThemeManager()
 
 	def jump_to_display(self, display:int, **displayargs):
 		last_display = self.current_display
@@ -33,7 +36,7 @@ class DisplayManager():
 		try:
 			self.open_display = DISPLAYS[self.current_display](self.window, self, displayargs)
 		except exceptions.QuizDataNotProvided:
-			showerror("QuizDataNotProvided Error","Quiz data was not provided to the display: {} from diplay {}".format(Displays(display).name, Displays(last_display).name))
+			showerror("QuizDataNotProvided Error", "Quiz data was not provided to the display: {} from diplay {}".format(Displays(display).name, Displays(last_display).name))
 			sys.exit()
 	def clear_window(self):
 		widget_list =  self.window.winfo_children()
@@ -214,4 +217,44 @@ class QuizEnd():
 	def return_to_main_menu(self):
 		self.display_manager.jump_to_display(Displays.START_SCREEN.value)
 		
-DISPLAYS = [StartScreen, QuizWelcome, QuizPage, QuizEnd] #Constant with displays assigned to numbers
+class OptionsMenu():
+	def __init__(self, window, display_manager, displayargs:dict):
+		self.win = window
+		self.display_manager = display_manager
+
+		lang = [
+			LANGUAGE_MANAGER.get_language_word("options-language"),
+			LANGUAGE_MANAGER.get_current_language()
+		]
+		lang.extend(LANGUAGE_MANAGER.get_all_languages())
+
+		theme = [
+			LANGUAGE_MANAGER.get_language_word("options-theme"),
+			self.display_manager.theme_manager.theme, 
+		]
+		theme.extend(self.display_manager.theme_manager.available_themes)
+
+		accent = [
+			LANGUAGE_MANAGER.get_language_word("options-accent-colour"),
+			self.display_manager.theme_manager.accent_colour,
+		]
+		accent.extend(self.display_manager.theme_manager.available_accent_colours)
+
+		self.options_menu = widgets.OptionsMenu(self.win, lang, theme, accent)
+		self.options_menu.grid(row = 1, column=0, )
+		self.save_button = CTkButton(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("save"), command=self.save
+		)
+		self.save_button.grid(row=2, column=0)
+		self.exit_button = CTkButton(
+			self.win, text=LANGUAGE_MANAGER.get_language_word("exit"), command=self.exit
+		)
+		self.save_button.grid(row=2, column=1)
+
+	def save(self):
+		self.display_manager.jump_to_display(Displays.START_SCREEN.value)
+
+	def exit(self):
+		self.display_manager.jump_to_display(Displays.START_SCREEN.value)
+
+DISPLAYS = [StartScreen, QuizWelcome, QuizPage, QuizEnd, OptionsMenu] #Constant with displays assigned to numbers

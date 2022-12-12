@@ -1,6 +1,7 @@
 import json
 import os
 import logging
+import locale
 
 class LanguageManager():
     language_keys = [
@@ -17,23 +18,39 @@ class LanguageManager():
         "correct-answers",
         "incorrect-answers",
         "main-menu",
+        "save",
+        "exit",
+
+        "options-title",
+        "options-language",
+        "options-theme",
+        "options-theme-light",
+        "options-theme-dark",
+        "options-theme-system",
+        "options-accent-colour"
+        "options-accent-colour-blue",
+        "options-accent-colour-green",
     ]
+
+    available_languages = {}
 
     def __init__(self):
         self.languages = {}
         self.scan_languages(os.path.dirname(__file__) + "/languages")
         self.set_language("default")
 
-        self.set_language("default")
-
     def scan_languages(self, directory:str):
         for i in os.listdir(directory):
             if i.endswith(".json"):
-                self.load_and_add_language(i[:-5], directory+"/"+i)
+                self.load_language_to_list(i[:-5], directory+"/"+i)
 
-    def load_and_add_language(self, language_name:str, language_file:str):
+    def load_language_to_list(self, language_name:str, language_file:str):
+        self.available_languages[language_name] = language_file
+        print(language_name)
+
+    def load_and_add_language(self, language_name:str):
         try:
-            with open(language_file, "r") as file:
+            with open(self.available_languages[language_name], "r") as file:
                 self.languages[language_name] = json.load(file)
 
         except Exception as e:
@@ -41,11 +58,13 @@ class LanguageManager():
             logging.error(e)
 
     def set_language(self, language_name:str):
-        if language_name in self.languages.keys():
+        if language_name in self.available_languages.keys():
             self.current_language = language_name
+            self.load_and_add_language(language_name)
 
         else:
             logging.error("Language not found: " + language_name)
+
 
     def get_language_word(self, word:str):
         return self.languages[self.current_language][word]
@@ -62,3 +81,9 @@ class LanguageManager():
 
         else:
             return False
+
+    def get_all_languages(self):
+        return self.languages.keys()
+
+    def get_current_language(self):
+        return self.current_language

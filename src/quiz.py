@@ -14,7 +14,7 @@ class Quiz():
 
 	int_info = [
 		"question-count",
-		"required_question_count"
+		"required-question-count"
 	]
 
 	correct_string = "Correct!"
