@@ -51,10 +51,8 @@ class Quiz():
 		self.data = None
 
 	def load_from_file(self, file_name:str):
-		file = open(file_name, "r")
-		self.data = json.loads(file.read())
-		file.close()
-
+		with open(file_name, "r") as file
+			self.data = json.loads(file.read())
 		self.validate_quiz()
 
 	def load_from_string(self, text:str):
