@@ -13,7 +13,7 @@ class ControlButtons(CTkFrame):
 
 		self.open_button = CTkButton(self, text=open_text, command=open_quiz)
 		self.open_button.grid(row=0, column=0, padx=10, pady=10)
-		self.quit_button = CTkButton(self, text=quit_text, command=lambda:sys.exit())
+		self.quit_button = CTkButton(self, text=quit_text, command=lambda:parent.destroy())
 		self.quit_button.grid(row=0, column=1, padx=10, pady=10)
 
 class QuestionDisplay(CTkFrame):
