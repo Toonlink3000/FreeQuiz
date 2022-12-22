@@ -36,7 +36,7 @@ class LanguageManager():
 
     def __init__(self):
         self.languages = {}
-        self.scan_languages(os.path.join(os.path.dirname(__file__), "/languages"))
+        self.scan_languages(os.path.join(os.path.dirname(__file__), "languages"))
         self.set_language("default")
 
     def scan_languages(self, directory:str):

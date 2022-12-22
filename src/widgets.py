@@ -1,5 +1,6 @@
 from customtkinter import *
-from tkinter import *
+from customtkinter import CTkFont
+#from tkinter import *
 
 class WrappedLabel(CTkLabel):
 	def __init__(self, parent, **kwargs):
@@ -20,7 +21,7 @@ class QuestionDisplay(CTkFrame):
 	def __init__(self, parent, main_text, sub_text):
 		super().__init__(parent)
 
-		self.main_text_l = CTkLabel(self, text=main_text, text_font=("default", 30))
+		self.main_text_l = CTkLabel(self, text=main_text, font=("default", 30))
 		self.main_text_l.grid(row=0, column=0, padx=20, pady=10)
 
 		self.sub_text_l = CTkLabel(self, text=sub_text)
@@ -31,8 +32,8 @@ class QuestionDisplay(CTkFrame):
 class QuizWelcomeGreeting(CTkFrame):
 	def __init__(self, parent, quiz_name:str, author:str):
 		super().__init__(parent)
-
-		self.quiz_name_l = CTkLabel(self, text=quiz_name, text_font=("default", 30))
+		popo = CTkFont(size=30)
+		self.quiz_name_l = CTkLabel(self, text=quiz_name, font=popo)
 		self.author_l = CTkLabel(self, text=author)
 
 		self.quiz_name_l.grid(row=0, column=0, padx=10, pady=10)
@@ -44,7 +45,7 @@ class QuizGoodbye(CTkFrame):
 	def __init__(self, parent, goodbye_message:str):
 		super().__init__(parent)
 
-		self.goodbye_message_l = CTkLabel(self, text=goodbye_message, text_font=("default", 30))
+		self.goodbye_message_l = CTkLabel(self, text=goodbye_message, font=("default", 30))
 		self.goodbye_message_l.grid(row=0, column=0, padx=10, pady=10)
 
 		self.grid_columnconfigure(0, weight=1)
@@ -58,7 +59,7 @@ class QuestionHeader(CTkFrame):
 		self.sub_text = StringVar()
 		self.sub_text.set(sub_text)
 
-		self.main_text_l = WrappedLabel(self, textvariable=self.main_text, text_font=("default", 20))
+		self.main_text_l = WrappedLabel(self, textvariable=self.main_text, font=("default", 30))
 		self.sub_text_l = CTkLabel(self, textvariable=self.sub_text)
 
 		self.main_text_l.grid(row=0, column=0, padx=10, pady=10)

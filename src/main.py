@@ -12,6 +12,7 @@ args = parser.parse_args()
 class App(CTk):
 	def __init__(self):
 		super().__init__()
+		self.geometry("640x480")
 		displays.LANGUAGE_MANAGER.set_language(args.language)
 	
 		self.title("FreeQuiz")

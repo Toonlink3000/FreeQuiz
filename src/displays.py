@@ -45,32 +45,25 @@ class DisplayManager():
 
 class StartScreen():
 	def __init__(self, window, display_manager, displayargs:dict):
-		window.control_buttons = widgets.ControlButtons(
+		self.control_buttons = widgets.ControlButtons(
 			window, self.open_quiz, LANGUAGE_MANAGER.get_language_word("open-quiz"), LANGUAGE_MANAGER.get_language_word("quit")
 		)
-		window.control_buttons.grid(row=2, column=0, pady=50)
-		window.title_text = CTkLabel(text="FreeQuiz", text_font=("default", -70))
-		window.title_text.grid(row=0, column=0, pady=50)
+		self.control_buttons.grid(row=2, column=0, pady=50)
+		self.title_text = CTkLabel(window, text="FreeQuiz", font=("default", -70))
+		self.title_text.grid(row=0, column=0, pady=50)
 
 		window.grid_columnconfigure(0, weight=1)
 		window.grid_rowconfigure(1, weight=1)
 		self.display_manager = display_manager
 
 	def open_quiz(self):
-		try:
-			file_name = askopenfilename(filetypes=(("FreeQuiz quiz file", "*.qwz"), ("JSON files", "*.json"), ("All files", "*")))
-			if file_name == ():
-				return
-			data = quiz.Quiz()
-			data.load_from_file(file_name)
-			self.display_manager.jump_to_display(Displays.QUIZ_WELCOME.value, data=data)
+		file_name = askopenfilename(filetypes=(("FreeQuiz quiz file", "*.qwz"), ("JSON files", "*.json"), ("All files", "*")))
+		if file_name == ():
+			return
 		
-		except exceptions.QuizDataNotProvided:
-			logging.error("Quiz data was not provided to the display: {}".format(Displays(self.display_manager.current_display).name))
-		
-		except Exception as e:
-			logging.error("Failed to open quiz file: " + file_name)
-			logging.error(e)
+		data = quiz.Quiz()
+		data.load_from_file(file_name)	
+		self.display_manager.jump_to_display(Displays.QUIZ_WELCOME.value, data=data)
 
 class QuizWelcome():
 	def __init__(self, window, display_manager, displayargs:dict):
@@ -92,7 +85,7 @@ class QuizWelcome():
 		self.win.grid_columnconfigure(0, weight=1)
 
 		description_label = CTkLabel(
-			self.win, text=LANGUAGE_MANAGER.get_language_word("description"), text_font=("default", 16)
+			self.win, text=LANGUAGE_MANAGER.get_language_word("description"), font=("default", 16)
 		)
 
 		description_label.grid(row=1, column=0, padx=30, sticky="nw")
