@@ -2,7 +2,7 @@
     "open-quiz": "Otevřít kvíz", 
     "quit": "Ukončit aplikaci",
     "description": "Popisek:",
-    "by:": "Vytvoříl(a): {}", 
+    "by:": "Autor: {}", 
     "start": "Začít",
     "enter-your-answer": "Zadej svoji odpověd:", 
     "submit": "Potvrdit",

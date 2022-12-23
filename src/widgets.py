@@ -72,16 +72,17 @@ class QuestionHeader(CTkFrame):
 		self.sub_text.set(sub_text)
 
 class QuestionInput(CTkFrame):
-	def __init__(self, parent, answer_type, options):
+	def __init__(self, parent, question):
 		super().__init__(parent)
-		self.answer_type = answer_type
-		if answer_type != "text":
-			self.options = options
-		self.draw_answer_box()
+		self.question = question
+		self.question.assign_widget(self)
 
 	def draw_answer_box(self):
-		self.answer = StringVar()
-		self.input_label = CTkLabel(self, text="Enter your answer: ")
+		self.question.create_input()
+		# self.answer = StringVar()
+		# self.input_label = CTkLabel(self, text="Enter your answer: ")
+
+		"""
 		match self.answer_type:
 			case "text":
 				self.input = CTkEntry(self, textvariable=self.answer)
@@ -97,14 +98,14 @@ class QuestionInput(CTkFrame):
 					self.input.append(CTkRadioButton(self, text=option, variable=self.answer, value=option))
 					self.input[i].grid(row=i+1, column=0, padx=10, pady=10, sticky="w")
 
-				self.total_length = len(self.options) + 1
+				sdelf.total_length = len(self.options) + 1
 				
 			case "true-false":
-				pass
-
-	def draw_iscorrect(self, correct:str):
-		self.iscorrect = CTkLabel(self, text=correct)
-		self.iscorrect.grid(row=self.total_length, column=0, padx=10, pady=10)
+				self.input_label.grid(row=0, column=0, padx=10, pady=10)
+				self.input = CTkCheckBox(self, text=self.quest)
+		"""
+	def draw_iscorrect(self):
+		self.question.check_answer()
 
 	def refresh_input(self, answer_type, options):
 

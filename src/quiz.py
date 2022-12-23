@@ -1,6 +1,7 @@
 import exceptions
 import json
 import random
+import question_types
 
 class Quiz():
 	str_info = [
@@ -27,14 +28,6 @@ class Quiz():
 		"answer",
 		"case-sensitive"
 	]
-
-	default_question_values = {
-		"main-text": "Undefined question",
-		"sub-text": "Undefined question",
-		"answer-type": "text",
-		"answer": "undefined",
-		"case-sensitive": False,
-	}
 
 	default_quiz_values = {
 		"name": "Unspecified",
@@ -84,7 +77,19 @@ class Quiz():
 
 	def get_current_question(self):
 		current_q_num = str(self.quiz_timeline[self.current_question])
-		return self.data[current_q_num]
+		# Get answer type and get its class
+		question_type = question_types.QUESTION_TYPES[self.data[current_q_num]["answer-type"]]
+		question = question_type(self.data[current_q_num], self.add_points)
+		question.check_and_correct_info()
+        
+		return question
+
+	def add_points(self, count):
+		if count > 0:
+			self.correct_answer_count += count
+
+		else:
+			self.wrong_answer_count += count * -1
 
 	def next_question(self) -> bool:
 		print("called next_question")
@@ -145,20 +150,12 @@ class Quiz():
 			if i in self.data.keys():
 				progress += 1
 
-		for i in range(0, self.data["question-count"]):
-			self.validate_and_correct_quiz_questions(i)
-
 		self.validate_and_correct_quiz_info()
 
 		if progress == len(self.str_info) + len(self.int_info):
 			return True
 		else:
 			return False
-
-	def validate_and_correct_quiz_questions(self, quesion_num):
-		for i in self.question_params:
-			if i not in self.data[str(quesion_num)].keys():
-				self.data[str(quesion_num)][i] = self.default_question_values[i]
 
 	def validate_and_correct_quiz_info(self):
 		for i in self.str_info:

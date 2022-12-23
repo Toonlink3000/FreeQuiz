@@ -122,18 +122,15 @@ class QuizPage():
 
 	def present_question(self):
 		self.question = self.data.get_current_question()
-		self.question_header = widgets.QuestionHeader(self.win, self.question["main-text"], self.question["sub-text"])
+		self.question.assign_language_manager(LANGUAGE_MANAGER)
+		
+		self.question_header = widgets.QuestionHeader(self.win, self.question.data["main-text"], self.question.data["sub-text"])
 		self.question_header.grid(row=0, column=0, sticky="ew", padx=20, pady=20)
 		self.win.grid_columnconfigure(0, weight=1)
-
-		if self.question["answer-type"] == "multiple-choice":
-			options = self.question["options"]
-		
-		elif self.question["answer-type"] == "text":
-			options = None
 			
-		self.question_input = widgets.QuestionInput(self.win, self.question["answer-type"], options)
+		self.question_input = widgets.QuestionInput(self.win, self.question)
 		self.question_input.grid(row=1, column=0)
+		self.question_input.draw_answer_box()
 		self.win.grid_rowconfigure(1, weight=1)
 
 		self.submit_button_t = StringVar()
@@ -143,9 +140,7 @@ class QuizPage():
 		self.win.grid_rowconfigure(2, weight=0)
 
 	def submit_answer(self):
-		correctness = self.data.check_and_count_answer(self.question_input.answer.get())
-
-		self.question_input.draw_iscorrect(correctness)
+		self.question_input.draw_iscorrect()
 		self.submit_button_t.set(LANGUAGE_MANAGER.get_language_word("next-question"))
 		self.submit_button.configure(command = self.next_question)
 
@@ -158,14 +153,11 @@ class QuizPage():
 		self.refresh_question()
 
 	def refresh_question(self):
-		self.question = self.data.get_current_question()
+		self.question.destroy_input()
 
-		if self.question["answer-type"] == "multiple-choice":
-			options = self.question["options"]
-		
-		elif self.question["answer-type"] == "text":
-			options = None
-			
+		self.question = self.data.get_current_question()
+		self.question.assign_widget(self, LANGUAGE_MANAGER)
+
 		self.question_header.refresh_texts(self.question["main-text"], self.question["sub-text"])
 		self.question_input.refresh_input(self.question["answer-type"], options)
 
