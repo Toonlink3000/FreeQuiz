@@ -2,7 +2,22 @@ from customtkinter import *
 from customtkinter import CTkFont
 #from tkinter import *
 
+GLOBAL_QUESTION_INFO = {
+	"main-text": str,
+	"sub-text": str,
+	"answer-type": str
+}
+GLOBAL_DEFAULT_INFO = {
+	"main-text": "Undefined",
+	"sub-text": "Undefined",
+	"answer-type": "Undefined"
+}
+
 class QuestionType():
+	def __init__(self):
+		self.required_info.update(GLOBAL_QUESTION_INFO)
+		self.default_values.update(GLOBAL_DEFAULT_INFO)
+
 	def assign_widget(self, widget):
 		self.widget = widget
 
@@ -33,36 +48,20 @@ class QuestionType():
 			# Check if correct type
 			if type(self.data[info]) != self.required_info[info]:
 				self.data[info] = self.default_values[info]
-		"""except Exception as e:
-			undef = "false"
-			if hasattr(self, "data") == False:
-				undef = "data"
-
-			elif hasattr(self, "required_info") == False:
-				undef = "required_info"
-
-			else:
-				undef = e
-			print("In question type:", type(self).__name__, undef, "is not defined")"""
 
 class Text(QuestionType):
 	required_info = {
 		"case-sensitive": bool,
-		"answer": str,
-		"main-text": str,
-		"sub-text": str,
-		"answer-type": str
+		"answer": str
 	}
 
 	default_values = {
 		"case-sensitive": True,
-		"answer": "undefined",
-		"main-text": "Undefined",
-		"sub-text": "Undefined",
-		"answer-type": "Undefined"
+		"answer": "undefined"
 	}
 
 	def __init__(self, info, point_callback):
+		super().__init__()
 		self.point_callback = point_callback
 		self.data = info
 

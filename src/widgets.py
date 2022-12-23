@@ -82,28 +82,6 @@ class QuestionInput(CTkFrame):
 		# self.answer = StringVar()
 		# self.input_label = CTkLabel(self, text="Enter your answer: ")
 
-		"""
-		match self.answer_type:
-			case "text":
-				self.input = CTkEntry(self, textvariable=self.answer)
-				self.input_label.grid(row=0, column=0, padx=10, pady=10)
-				self.input.grid(row=1, column=0, padx=10, pady=10)
-				self.total_length = 2
-
-			case "multiple-choice":
-				#create a list of radio buttons for each option
-				self.input_label.grid(row=0, column=0, padx=10, pady=10)
-				self.input = []
-				for i, option in enumerate(self.options):
-					self.input.append(CTkRadioButton(self, text=option, variable=self.answer, value=option))
-					self.input[i].grid(row=i+1, column=0, padx=10, pady=10, sticky="w")
-
-				sdelf.total_length = len(self.options) + 1
-				
-			case "true-false":
-				self.input_label.grid(row=0, column=0, padx=10, pady=10)
-				self.input = CTkCheckBox(self, text=self.quest)
-		"""
 	def draw_iscorrect(self):
 		self.question.check_answer()
 
