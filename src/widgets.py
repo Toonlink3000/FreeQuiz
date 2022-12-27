@@ -85,10 +85,9 @@ class QuestionInput(CTkFrame):
 	def draw_iscorrect(self):
 		self.question.check_answer()
 
-	def refresh_input(self, answer_type, options):
+	def refresh_input(self, answer_type):
 
 		self.answer_type = answer_type
-		self.options = options
 
 		for i in self.grid_slaves():
 			i.destroy()

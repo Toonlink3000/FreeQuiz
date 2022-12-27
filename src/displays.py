@@ -156,10 +156,10 @@ class QuizPage():
 		self.question.destroy_input()
 
 		self.question = self.data.get_current_question()
-		self.question.assign_widget(self, LANGUAGE_MANAGER)
+		self.question.assign_widget(self)
 
-		self.question_header.refresh_texts(self.question["main-text"], self.question["sub-text"])
-		self.question_input.refresh_input(self.question["answer-type"], options)
+		self.question_header.refresh_texts(self.question.data["main-text"], self.question.data["sub-text"])
+		self.question_input.refresh_input(self.question.data["answer-type"])
 
 		self.submit_button_t.set(LANGUAGE_MANAGER.get_language_word("submit"))
 		self.submit_button.configure(command=self.submit_answer)
