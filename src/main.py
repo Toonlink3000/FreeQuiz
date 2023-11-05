@@ -3,6 +3,7 @@ from tkinter import messagebox
 import traceback
 import displays
 import argparse
+import question_types
 
 parser = argparse.ArgumentParser(description="FreeQuiz")
 parser.add_argument("-l", "--language", help="Set the language of the program", default="default")
@@ -20,6 +21,9 @@ class App(CTk):
 		self.display_manager.jump_to_display(0)
 
 def main():
+		#scan question types
+		question_types.scan_type_plugins()
+
 		app = App()
 		app.mainloop()
 

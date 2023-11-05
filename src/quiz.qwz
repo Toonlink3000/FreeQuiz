@@ -16,7 +16,7 @@
 	"1": {
 		"main-text": "A multiple choice question!!",
 		"sub-text": "This is some subtexasdt",
-		"answer-type": "multiple-choice",
+		"answer-type": "multiple_choice",
 		"answer": "nevim",
 		"options": [
 			"option 1",
@@ -27,7 +27,7 @@
 	"2": {
 		"main-text": "A true-false question!!",
 		"sub-text": "This is some subtexasdt",
-		"answer-type": "true-false",
+		"answer-type": "true_false",
 		"answer": [
 			true,
 			true,
