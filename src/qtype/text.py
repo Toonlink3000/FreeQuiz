@@ -1,4 +1,4 @@
-import qtype_base
+import qtype_base as base
 from customtkinter import *
 from customtkinter import CTkFont
 
