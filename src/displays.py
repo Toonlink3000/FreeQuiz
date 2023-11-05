@@ -96,6 +96,7 @@ class QuizWelcome():
 		self.description_l.grid(row=2, column=0, sticky="new", padx=40, pady=10)
 		self.win.grid_rowconfigure(2, weight=1)
 
+		self.win.grid_rowconfigure(3, weight=0)
 		self.start_button = CTkButton(
 			self.win, text=LANGUAGE_MANAGER.get_language_word("start"), command=self.start_quiz
 		)

@@ -6,8 +6,6 @@
 	"goodbye-message": "goodbye world",
 	"question-count": 2,
 	"organise": "random",
-	"correct_string": "correct",
-	"incorrect_string": "incorrect",
 	"0": {
 		"main-text": "Datum narozeni bozeny nemcove",
 		"sub-text": "This is some subtext",
